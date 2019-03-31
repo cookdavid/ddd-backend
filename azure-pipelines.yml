@@ -8,6 +8,10 @@ queue:
 variables:
   StorageAccount: 'dddmelbournedeployments'
   StorageContainer: 'ddd-functions'
+  Parameters.RestoreBuildProjects: ''
+  Parameters.TestProjects: ''
+  BuildConfiguration: 'Release'
+  
 steps:
 - task: Npm@1
   inputs:
