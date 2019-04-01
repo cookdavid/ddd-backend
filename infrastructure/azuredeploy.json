@@ -183,7 +183,7 @@
                         "[resourceId('Microsoft.Storage/storageAccounts', parameters('dataStorageName'))]"
                     ],
                     "properties": {
-                        "WEBSITE_USE_ZIP": "[parameters('deploymentZipUrl')]",
+                        "WEBSITE_RUN_FROM_PACKAGE": "[parameters('deploymentZipUrl')]",
                         "WEBSITE_NODE_DEFAULT_VERSION": "8.9.4",
                         "FUNCTIONS_EXTENSION_VERSION": "~2",
                         "FUNCTION_APP_EDIT_MODE": "readonly",
