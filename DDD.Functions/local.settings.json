@@ -30,7 +30,7 @@
     // TitoSync
     "TitoSyncSchedule": "* * * * *",
     "TitoTable": "Tito",
-    "TitoEventId": "44602457150",
+    "TitoEventId": "ddd-2018",
     "TitoAccountId": "ddd-melbourne",
     "StopSyncingTitoFrom": "2018-06-18T23:59:59+08:00",
     // GetSubmissions

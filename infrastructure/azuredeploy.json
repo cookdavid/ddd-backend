@@ -211,7 +211,7 @@
                         "TitoSyncSchedule": "[variables('titoSyncSchedule')]",
                         "TitoTable": "[variables('titoTable')]",
                         "TitoEventId": "[parameters('titoEventId')]",
-                        "TitoAccountId": "[parameters('titoEventId')]",
+                        "TitoAccountId": "[parameters('TitoAccountId')]",
                         "StopSyncingTitoFrom": "[parameters('stopSyncingTitoFrom')]",
                         "MinVotes": "[parameters('minVotes')]",
                         "MaxVotes": "[parameters('maxVotes')]",
