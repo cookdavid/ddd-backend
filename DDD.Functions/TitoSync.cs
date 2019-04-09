@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
@@ -59,7 +60,9 @@ namespace DDD.Functions
         {
             var response = await http.GetAsync(titoUrl);
             response.EnsureSuccessStatusCode();
-            var content = await response.Content.ReadAsAsync<PaginatedTitoOrderResponse>();
+            var formatters = new MediaTypeFormatterCollection();
+            formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/vnd.api+json"));
+            var content = await response.Content.ReadAsAsync<PaginatedTitoOrderResponse>(formatters);
             return (content.Registrations, content.Meta.HasMoreItems, content.Meta.NextPage);
         }
     }
