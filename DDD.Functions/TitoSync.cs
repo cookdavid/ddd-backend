@@ -36,12 +36,19 @@ namespace DDD.Functions
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", $"token={tito.ApiKey}");
             var (registrations, hasMoreItems, nextPage) = await GetRegistrationsAsync(http,
                 $"https://api.tito.io/v3/{tito.AccountId}/{tito.EventId}/registrations/");
-            ids.AddRange(registrations.Select(o => o.Id));
+            if (registrations != null)
+            {
+                ids.AddRange(registrations.Select(o => o.Id));
+            }
+
             while (hasMoreItems)
             {
                 (registrations, hasMoreItems, nextPage) = await GetRegistrationsAsync(http,
                     $"https://api.tito.io/v3/{tito.AccountId}/{tito.EventId}/registrations?page={nextPage}");
-                ids.AddRange(registrations.Select(o => o.Id));
+                if (registrations != null)
+                {
+                    ids.AddRange(registrations.Select(o => o.Id));
+                }
             }
 
             var repo = await tito.GetRepositoryAsync();
