@@ -44,7 +44,7 @@ namespace DDD.Functions
 
             // Taking up to 100 records to meet Azure Storage Bulk Operation limit
             var newRecords = currentRecords.Except(existingRecords, new AppInsightsVotingUserComparer()).Take(100).ToArray();
-            log.LogInformation("Found {existingCount} existing app insights voting users and {currentCount} current app insights voting users. Inserting {newCount} new orders.", existingRecords.Count, currentRecords.Length, newRecords.Length);
+            log.LogInformation("Found {existingCount} existing app insights voting users and {currentCount} current app insights voting users. Inserting {newCount} new tickets.", existingRecords.Count, currentRecords.Length, newRecords.Length);
             await repo.CreateBatchAsync(newRecords);
         }
     }

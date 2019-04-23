@@ -13,8 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DDD.Sessionize.Tests", "DDD
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9F7197DF-1FB5-43F3-A587-8659A8C566AC}"
 	ProjectSection(SolutionItems) = preProject
-		.vsts-ci.yml = .vsts-ci.yml
 		README.md = README.md
+		azure-pipelines.yml = azure-pipelines.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DDD.Functions.Extensions", "DDD.Functions.Extensions\DDD.Functions.Extensions.csproj", "{F47E6BF3-D07E-4E0C-8EC5-068743F9031A}"
