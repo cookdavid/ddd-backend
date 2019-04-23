@@ -15,73 +15,105 @@ namespace DDD.Functions
 {
     public static class TitoSync
     {
+        private static TitoSyncConfig _titoSyncConfig;
+        private static HttpClient _httpClient;
+        private static ILogger _logger;
+
         [FunctionName("TitoSync")]
         public static async Task Run(
             [TimerTrigger("%TitoSyncSchedule%")]
             TimerInfo timer,
-            ILogger log,
+            ILogger logger,
             [BindConferenceConfig] ConferenceConfig conference,
             [BindKeyDatesConfig] KeyDatesConfig keyDates,
-            [BindTitoSyncConfig] TitoSyncConfig tito
+            [BindTitoSyncConfig] TitoSyncConfig titoSyncConfig
         )
         {
+            _titoSyncConfig = titoSyncConfig;
+            _logger = logger;
+
             if (keyDates.After(x => x.StopSyncingTitoFromDate, TimeSpan.FromMinutes(10)))
             {
-                log.LogInformation("Tito sync sync date passed");
+                _logger.LogInformation("Tito sync sync date passed");
                 return;
             }
 
             var ids = new List<string>();
-            var http = new HttpClient();
-            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", $"token={tito.ApiKey}");
-            var (registrations, hasMoreItems, nextPage) = await GetRegistrationsAsync(http,
-                $"https://api.tito.io/v3/{tito.AccountId}/{tito.EventId}/registrations/");
-            if (registrations != null)
+            _httpClient = new HttpClient();
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", $"token={titoSyncConfig.ApiKey}");
+
+            var (tickets, hasMoreItems, nextPage) = await GetRegistrationsAsync();
+
+            if (tickets != null && tickets.Any())
             {
-                ids.AddRange(registrations.Select(o => o.Id));
+                ids.AddRange(tickets.Select(o => o.Id));
+                _logger.LogInformation("Retrieved {registrationsCount} tickets from Tito.", tickets.Count());
             }
 
             while (hasMoreItems)
             {
-                (registrations, hasMoreItems, nextPage) = await GetRegistrationsAsync(http,
-                    $"https://api.tito.io/v3/{tito.AccountId}/{tito.EventId}/registrations?page={nextPage}");
-                if (registrations != null)
+                (tickets, hasMoreItems, nextPage) = await GetRegistrationsAsync(nextPage.Value);
+
+                if (tickets != null && tickets.Any())
                 {
-                    ids.AddRange(registrations.Select(o => o.Id));
+                    _logger.LogInformation("Found more {registrationsCount} tickets from Tito.", tickets.Count());
+                    ids.AddRange(tickets.Select(o => o.Id));
                 }
             }
 
-            var repo = await tito.GetRepositoryAsync();
-            var existingOrders = await repo.GetAllAsync(conference.ConferenceInstance);
+            var repo = await titoSyncConfig.GetRepositoryAsync();
+            var existingTickets = await repo.GetAllAsync(conference.ConferenceInstance);
 
             // Taking up to 100 records to meet Azure Storage Bulk Operation limit
-            var newOrders = ids.Except(existingOrders.Select(x => x.OrderId).ToArray()).Distinct().Take(100).ToArray();
-            log.LogInformation(
-                "Found {existingCount} existing orders and {currentCount} current orders. Inserting {newCount} new orders.",
-                existingOrders.Count, ids.Count, newOrders.Count());
-            await repo.CreateBatchAsync(newOrders.Select(o => new TitoOrder(conference.ConferenceInstance, o))
+            var newTickets = ids.Except(existingTickets.Select(x => x.TicketId).ToArray()).Distinct().Take(100).ToArray();
+            _logger.LogInformation(
+                "Found {existingCount} existing tickets and {currentCount} current tickets. Inserting {newCount} new tickets.",
+                existingTickets.Count, ids.Count, newTickets.Count());
+            await repo.CreateBatchAsync(newTickets.Select(o => new TitoTicket(conference.ConferenceInstance, o))
                 .ToArray());
         }
 
-        private static async Task<(Registration[], bool, int?)> GetRegistrationsAsync(HttpClient http, string titoUrl)
+
+        private static async Task<(Ticket[], bool, int?)> GetRegistrationsAsync(int pageNumber = 1)
         {
-            var response = await http.GetAsync(titoUrl);
-            response.EnsureSuccessStatusCode();
-            var formatters = new MediaTypeFormatterCollection();
-            formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/vnd.api+json"));
-            var content = await response.Content.ReadAsAsync<PaginatedTitoOrderResponse>(formatters);
-            return (content.Registrations, content.Meta.HasMoreItems, content.Meta.NextPage);
+            var titoUrl = $"https://api.tito.io/v3/{_titoSyncConfig.AccountId}/{_titoSyncConfig.EventId}/registrations?page={pageNumber}";
+            var response = await _httpClient.GetAsync(titoUrl);
+
+            if (response.IsSuccessStatusCode)
+            {
+                try
+                {
+                    var formatters = new MediaTypeFormatterCollection();
+                    formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/vnd.api+json"));
+                    var content = await response.Content.ReadAsAsync<PaginatedTitoTicketsResponse>(formatters);
+
+                    return (content.Tickets, content.Meta.HasMoreItems, content.Meta.NextPage);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogCritical("Error fomratting/reading Tito response. ", ex);
+                }
+            }
+            else
+            {
+                _logger.LogCritical("Error connecting to Tito with http response: {reason}. The dump of the response: ", response.StatusCode, response.Content.ReadAsStringAsync());
+            }
+            return (null, false, null);
         }
     }
 
-    public class PaginatedTitoOrderResponse
+    public class PaginatedTitoTicketsResponse
     {
+        [JsonProperty("meta")]
         public Meta Meta { get; set; }
-        public Registration[] Registrations { get; set; }
+
+        [JsonProperty("tickets")]
+        public Ticket[] Tickets { get; set; }
     }
 
-    public class Registration
+    public class Ticket
     {
+        [JsonProperty("id")]
         public string Id { get; set; }
     }
 

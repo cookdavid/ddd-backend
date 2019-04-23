@@ -29,7 +29,7 @@ namespace DDD.Sessionize.Tests.SessionizeSync
 
         public async Task WhenPerformingSync()
         {
-            await SyncService.Sync(_sessionizeApiClient, _sessionRepository, _presenterRepository,  _logger, _dateTimeProvider, "2018");
+            await SyncService.Sync(_sessionizeApiClient, _sessionRepository, _presenterRepository, _logger, _dateTimeProvider, "2018");
         }
 
         public void AndGivenSessionizeHasNewUpdatedAndDeletedPresentersAndSessions()

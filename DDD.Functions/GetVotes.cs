@@ -44,8 +44,8 @@ namespace DDD.Functions
 
             // Get Tito ids
             var ebRepo = await tito.GetRepositoryAsync();
-            var titoOrders = await ebRepo.GetAllAsync(conference.ConferenceInstance);
-            var titoIds = titoOrders.Select(o => o.OrderId).ToArray();
+            var titoTickets = await ebRepo.GetAllAsync(conference.ConferenceInstance);
+            var titoIds = titoTickets.Select(o => o.TicketId).ToArray();
 
             // Get AppInsights sessions
             var aiRepo = await appInsights.GetRepositoryAsync();
