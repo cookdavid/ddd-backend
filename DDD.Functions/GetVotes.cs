@@ -77,8 +77,8 @@ namespace DDD.Functions
                     CreatedDate = s.CreatedDate,
                     ModifiedDate = s.ModifiedDate,
                     IsUnderrepresented = s.DataFields.ContainsKey("Are you a member of any underrepresented groups?") && !string.IsNullOrEmpty(s.DataFields["Are you a member of any underrepresented groups?"]),
-                    Pronoun = s.DataFields["Your preferred pronoun"],
-                    JobRole = s.DataFields["How would you identify your job role?"],
+                    Pronoun = s.DataFields["Your pronoun"],
+                    JobRole = s.DataFields["How would you identify your job role"],
                     SpeakingExperience = s.DataFields["How much speaking experience do you have?"],
                     VoteSummary = new VoteSummary(analysedVotes.Where(v => v.Vote.GetSessionIds().Contains(s.Id.ToString())).ToArray())
                 })
