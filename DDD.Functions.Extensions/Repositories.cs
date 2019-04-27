@@ -7,7 +7,7 @@ using Microsoft.WindowsAzure.Storage;
 
 namespace DDD.Functions.Extensions
 {
-    public static class SessionData
+    public static class Repositories
     {
         public static async Task<ITableStorageRepository<NotifiedSessionEntity>> GetRepositoryAsync(this NewSessionNotificationConfig config)
         {
@@ -24,6 +24,18 @@ namespace DDD.Functions.Extensions
         public static Task<(ITableStorageRepository<SessionEntity>, ITableStorageRepository<PresenterEntity>)> GetRepositoryAsync(this SessionsConfig config)
         {
             return GetSessionRepositoryAsync(config.ConnectionString, config.SessionsTable, config.PresentersTable);
+        }
+
+        public static async Task<(ITableStorageRepository<DedupeWebhookEntity>, IQueueStorageRepository<OrderNotificationEvent>, IQueueStorageRepository<TicketNotificationEvent>)> GetRepositoryAsync(this TitoWebhookConfig config)
+        {
+            var storageAccount = CloudStorageAccount.Parse(config.ConnectionString);
+            var deDupeRepository = new TableStorageRepository<DedupeWebhookEntity>(storageAccount, config.DeDupeTable);
+            var orderNotificationQueue = new QueueStorageRepository<OrderNotificationEvent>(storageAccount, config.OrderNotificationQueue);
+            var ticketNotificationQueue = new QueueStorageRepository<TicketNotificationEvent>(storageAccount, config.TicketNotificationQueue);
+            await deDupeRepository.InitializeAsync();
+            await orderNotificationQueue.InitializeAsync();
+            await ticketNotificationQueue.InitializeAsync();
+            return (deDupeRepository, orderNotificationQueue, ticketNotificationQueue);
         }
 
         public static async Task<ITableStorageRepository<TitoTicket>> GetRepositoryAsync(this TitoSyncConfig config)
