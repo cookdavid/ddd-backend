@@ -1,319 +1,319 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-        "serverFarmResourceId": {
-            "type": "string"
-        },
-        "functionsAppName": {
-            "type": "string"
-        },
-        "dataStorageName": {
-            "type": "string"
-        },
-        "dataStorageType": {
-            "type": "string",
-            "allowedValues": [
-                "Standard_LRS",
-                "Standard_ZRS",
-                "Standard_GRS",
-                "Standard_RAGRS",
-                "Premium_LRS"
-            ]
-        },
-        "storageName": {
-            "type": "string"
-        },
-        "storageType": {
-            "type": "string",
-            "allowedValues": [
-                "Standard_LRS",
-                "Standard_ZRS",
-                "Standard_GRS",
-                "Standard_RAGRS",
-                "Premium_LRS"
-            ]
-        },
-        "stopSyncingSessionsFrom": {
-            "type": "string"
-        },
-        "newSessionNotificationLogicAppUrl": {
-            "type": "securestring"
-        },
-        "deploymentZipUrl": {
-            "type": "securestring"
-        },
-        "sessionizeApiKey": {
-            "type": "securestring"
-        },
-        "titoApiBearerToken": {
-            "type": "securestring"
-        },
-        "submissionsAvailableFrom": {
-            "type": "string"
-        },
-        "submissionsAvailableTo": {
-            "type": "string"
-        },
-        "anonymousSubmissions": {
-            "type": "string",
-            "allowedValues": [
-                "true",
-                "false"
-            ]
-        },
-        "conferenceInstance": {
-            "type": "string"
-        },
-        "votingAvailableFrom": {
-            "type": "string"
-        },
-        "votingAvailableTo": {
-            "type": "string"
-        },
-        "minVotes": {
-            "type": "string"
-        },
-        "maxVotes": {
-            "type": "string"
-        },
-        "titoEventId": {
-            "type": "string"
-        },        
-        "titoAccountId": {
-            "type": "string"
-        },
-        "stopSyncingTitoFrom": {
-            "type": "string"
-        },
-        "appInsightsApplicationId": {
-            "type": "string"
-        },
-        "appInsightsApplicationKey": {
-            "type": "string"
-        },
-        "startSyncingAppInsightsFrom": {
-            "type": "string"
-        },
-        "stopSyncingAppInsightsFrom": {
-            "type": "string"
-        },
-        "stopSyncingAgendaFrom": {
-            "type": "string"
-        },
-        "sessionizeAgendaApiKey": {
-            "type": "string"
-        }
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "serverFarmResourceId": {
+      "type": "string"
     },
-    "variables": {
-        "appInsightsLocation": "East US",
-        "sessionizeReadModelSyncSchedule": "0 */5 * * * *",
-        "votingTable": "Votes",
-        "titoSyncSchedule": "0 */5 * * * *",
-        "titoTable": "Tito",
-        "appInsightsSyncSchedule": "0 */5 * * * *",
-        "appInsightsTable": "AppInsights",
-        "submissionsTable": "Submissions",
-        "submittersTable": "Submitters",
-        "sessionsTable": "Sessions",
-        "presentersTable": "Presenters",
-        "newSessionNotificationSchedule": "0 */5 * * * *",
-        "notifiedSessionsTable": "NotifiedSessions",
-        "sessionFeedbackTable": "SessionFeedback",
-        "conferenceFeedbackTable": "ConferenceFeedback",
-        "minNumSessionFeedbackForPrizeDraw": "4"
+    "functionsAppName": {
+      "type": "string"
     },
-    "resources": [
+    "dataStorageName": {
+      "type": "string"
+    },
+    "dataStorageType": {
+      "type": "string",
+      "allowedValues": [
+        "Standard_LRS",
+        "Standard_ZRS",
+        "Standard_GRS",
+        "Standard_RAGRS",
+        "Premium_LRS"
+      ]
+    },
+    "storageName": {
+      "type": "string"
+    },
+    "storageType": {
+      "type": "string",
+      "allowedValues": [
+        "Standard_LRS",
+        "Standard_ZRS",
+        "Standard_GRS",
+        "Standard_RAGRS",
+        "Premium_LRS"
+      ]
+    },
+    "stopSyncingSessionsFrom": {
+      "type": "string"
+    },
+    "newSessionNotificationLogicAppUrl": {
+      "type": "securestring"
+    },
+    "deploymentZipUrl": {
+      "type": "securestring"
+    },
+    "sessionizeApiKey": {
+      "type": "securestring"
+    },
+    "titoApiBearerToken": {
+      "type": "securestring"
+    },
+    "submissionsAvailableFrom": {
+      "type": "string"
+    },
+    "submissionsAvailableTo": {
+      "type": "string"
+    },
+    "anonymousSubmissions": {
+      "type": "string",
+      "allowedValues": ["true", "false"]
+    },
+    "conferenceInstance": {
+      "type": "string"
+    },
+    "votingAvailableFrom": {
+      "type": "string"
+    },
+    "votingAvailableTo": {
+      "type": "string"
+    },
+    "minVotes": {
+      "type": "string"
+    },
+    "maxVotes": {
+      "type": "string"
+    },
+    "titoWebhookSecret": {
+      "type": "string"
+    },
+    "titoEventId": {
+      "type": "string"
+    },
+    "titoAccountId": {
+      "type": "string"
+    },
+    "stopSyncingTitoFrom": {
+      "type": "string"
+    },
+    "appInsightsApplicationId": {
+      "type": "string"
+    },
+    "appInsightsApplicationKey": {
+      "type": "string"
+    },
+    "startSyncingAppInsightsFrom": {
+      "type": "string"
+    },
+    "stopSyncingAppInsightsFrom": {
+      "type": "string"
+    },
+    "stopSyncingAgendaFrom": {
+      "type": "string"
+    },
+    "sessionizeAgendaApiKey": {
+      "type": "string"
+    }
+  },
+  "variables": {
+    "appInsightsLocation": "East US",
+    "sessionizeReadModelSyncSchedule": "0 */5 * * * *",
+    "votingTable": "Votes",
+    "titoSyncSchedule": "0 */5 * * * *",
+    "titoTable": "Tito",
+    "appInsightsSyncSchedule": "0 */5 * * * *",
+    "appInsightsTable": "AppInsights",
+    "submissionsTable": "Submissions",
+    "submittersTable": "Submitters",
+    "sessionsTable": "Sessions",
+    "presentersTable": "Presenters",
+    "newSessionNotificationSchedule": "0 */5 * * * *",
+    "notifiedSessionsTable": "NotifiedSessions",
+    "sessionFeedbackTable": "SessionFeedback",
+    "conferenceFeedbackTable": "ConferenceFeedback",
+    "minNumSessionFeedbackForPrizeDraw": "4",
+    "titoWebhookDeDupeTable": "WebhookDeDupe",
+    "titoWebhookOrderNotificationQueue": "ordernotification",
+    "titoWebhookTicketNotificationQueue": "ticketnotification"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Insights/components",
+      "name": "[parameters('functionsAppName')]",
+      "apiVersion": "2014-04-01",
+      "location": "[variables('appInsightsLocation')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites/', parameters('functionsAppName'))]"
+      ],
+      "tags": {
+        "[concat('hidden-link:', resourceId('Microsoft.Web/sites', parameters('functionsAppName')))]": "Resource"
+      },
+      "properties": {
+        "ApplicationId": "[parameters('functionsAppName')]",
+        "Request_Source": "IbizaWebAppExtensionCreate"
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[parameters('storageName')]",
+      "apiVersion": "2015-06-15",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "accountType": "[parameters('storageType')]"
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[parameters('dataStorageName')]",
+      "apiVersion": "2015-06-15",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "accountType": "[parameters('dataStorageType')]"
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites",
+      "name": "[parameters('functionsAppName')]",
+      "kind": "functionapp",
+      "apiVersion": "2015-08-01",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "name": "[parameters('functionsAppName')]",
+        "serverFarmId": "[parameters('serverFarmResourceId')]"
+      },
+      "tags": {
+        "[concat('hidden-related:', parameters('serverFarmResourceId'))]": "Resource"
+      },
+      "resources": [
         {
-            "type": "Microsoft.Insights/components",
-            "name": "[parameters('functionsAppName')]",
-            "apiVersion": "2014-04-01",
-            "location": "[variables('appInsightsLocation')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/sites/', parameters('functionsAppName'))]"
-            ],
-            "tags": {
-                "[concat('hidden-link:', resourceId('Microsoft.Web/sites', parameters('functionsAppName')))]": "Resource"
-            },
-            "properties": {
-                "ApplicationId": "[parameters('functionsAppName')]",
-                "Request_Source": "IbizaWebAppExtensionCreate"
-            }
+          "apiVersion": "2015-08-01",
+          "name": "appsettings",
+          "type": "config",
+          "dependsOn": [
+            "[parameters('functionsAppName')]",
+            "[resourceId('Microsoft.Insights/components', parameters('functionsAppName'))]",
+            "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageName'))]",
+            "[resourceId('Microsoft.Storage/storageAccounts', parameters('dataStorageName'))]"
+          ],
+          "properties": {
+            "WEBSITE_RUN_FROM_PACKAGE": "[parameters('deploymentZipUrl')]",
+            "WEBSITE_NODE_DEFAULT_VERSION": "8.9.4",
+            "FUNCTIONS_EXTENSION_VERSION": "~2",
+            "FUNCTION_APP_EDIT_MODE": "readonly",
+            "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+            "APPINSIGHTS_INSTRUMENTATIONKEY": "[reference(resourceId('Microsoft.Insights/components', parameters('functionsAppName')), '2014-04-01').InstrumentationKey]",
+            "ApplicationInsights:InstrumentationKey": "[reference(resourceId('Microsoft.Insights/components', parameters('functionsAppName')), '2014-04-01').InstrumentationKey]",
+            "AzureWebJobsDashboard": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageName'), ';AccountKey=', listkeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageName')), '2015-06-15').key1)]",
+            "AzureWebJobsStorage": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageName'), ';AccountKey=', listkeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageName')), '2015-06-15').key1)]",
+            "TitoWebhookConnectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageName'), ';AccountKey=', listkeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageName')), '2015-06-15').key1)]",
+            "NewSessionNotificationLogicAppUrl": "[parameters('newSessionNotificationLogicAppUrl')]",
+            "SessionsConnectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('dataStorageName'), ';AccountKey=', listkeys(resourceId('Microsoft.Storage/storageAccounts', parameters('dataStorageName')), '2015-06-15').key1)]",
+            "SessionizeApiKey": "[parameters('sessionizeApiKey')]",
+            "SessionizeReadModelSyncSchedule": "[variables('sessionizeReadModelSyncSchedule')]",
+            "StopSyncingSessionsFrom": "[parameters('stopSyncingSessionsFrom')]",
+            "SubmissionsAvailableFrom": "[parameters('submissionsAvailableFrom')]",
+            "SubmissionsAvailableTo": "[parameters('submissionsAvailableTo')]",
+            "AnonymousSubmissions": "[parameters('anonymousSubmissions')]",
+            "ConferenceInstance": "[parameters('conferenceInstance')]",
+            "VotesConnectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('dataStorageName'), ';AccountKey=', listkeys(resourceId('Microsoft.Storage/storageAccounts', parameters('dataStorageName')), '2015-06-15').key1)]",
+            "VotingTable": "[variables('votingTable')]",
+            "VotingAvailableFrom": "[parameters('votingAvailableFrom')]",
+            "VotingAvailableTo": "[parameters('votingAvailableTo')]",
+            "TitoWebhookSecret": "[parameters('titoWebhookSecret')]",
+            "TitoWebhookDeDupeTable": "[variables('titoWebhookDeDupeTable')]",
+            "TitoWebhookOrderNotificationQueue": "[variables('titoWebhookOrderNotificationQueue')]",
+            "TitoWebhookTicketNotificationQueue": "[variables('titoWebhookTicketNotificationQueue')]",
+            "TitoApiBearerToken": "[parameters('titoApiBearerToken')]",
+            "TitoSyncSchedule": "[variables('titoSyncSchedule')]",
+            "TitoTable": "[variables('titoTable')]",
+            "TitoEventId": "[parameters('titoEventId')]",
+            "TitoAccountId": "[parameters('TitoAccountId')]",
+            "StopSyncingTitoFrom": "[parameters('stopSyncingTitoFrom')]",
+            "MinVotes": "[parameters('minVotes')]",
+            "MaxVotes": "[parameters('maxVotes')]",
+            "AppInsightsSyncSchedule": "[variables('appInsightsSyncSchedule')]",
+            "AppInsightsTable": "[variables('appInsightsTable')]",
+            "AppInsightsApplicationId": "[parameters('appInsightsApplicationId')]",
+            "AppInsightsApplicationKey": "[parameters('appInsightsApplicationKey')]",
+            "StartSyncingAppInsightsFrom": "[parameters('startSyncingAppInsightsFrom')]",
+            "StopSyncingAppInsightsFrom": "[parameters('stopSyncingAppInsightsFrom')]",
+            "StopSyncingAgendaFrom": "[parameters('stopSyncingAgendaFrom')]",
+            "SessionizeAgendaApiKey": "[parameters('sessionizeAgendaApiKey')]",
+            "SubmissionsTable": "[variables('submissionsTable')]",
+            "SubmittersTable": "[variables('submittersTable')]",
+            "SessionsTable": "[variables('sessionsTable')]",
+            "PresentersTable": "[variables('presentersTable')]",
+            "NewSessionNotificationSchedule": "[variables('newSessionNotificationSchedule')]",
+            "NotifiedSessionsTable": "[variables('notifiedSessionsTable')]",
+            "FeedbackConnectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('dataStorageName'), ';AccountKey=', listkeys(resourceId('Microsoft.Storage/storageAccounts', parameters('dataStorageName')), '2015-06-15').key1)]",
+            "SessionFeedbackTable": "[variables('sessionFeedbackTable')]",
+            "ConferenceFeedbackTable": "[variables('conferenceFeedbackTable')]",
+            "MinNumSessionFeedbackForPrizeDraw": "[variables('minNumSessionFeedbackForPrizeDraw')]"
+          }
         },
         {
-            "type": "Microsoft.Storage/storageAccounts",
-            "name": "[parameters('storageName')]",
-            "apiVersion": "2015-06-15",
-            "location": "[resourceGroup().location]",
-            "properties": {
-                "accountType": "[parameters('storageType')]"
+          "apiVersion": "2015-08-01",
+          "name": "web",
+          "type": "config",
+          "dependsOn": ["[parameters('functionsAppName')]"],
+          "properties": {
+            "phpVersion": "",
+            "pythonVersion": "",
+            "nodeVersion": "8.9.4",
+            "javaVersion": null,
+            "netFrameworkVersion": "v4.0",
+            "use32BitWorkerProcess": true,
+            "webSocketsEnabled": true,
+            "alwaysOn": true,
+            "requestTracingEnabled": false,
+            "httpLoggingEnabled": true,
+            "logsDirectorySizeLimit": 100,
+            "detailedErrorLoggingEnabled": false,
+            "azureApplicationLogsFileSystemEnabled": true,
+            "cors": {
+              "allowedOrigins": ["*"]
             }
+          }
         },
         {
-            "type": "Microsoft.Storage/storageAccounts",
-            "name": "[parameters('dataStorageName')]",
-            "apiVersion": "2015-06-15",
-            "location": "[resourceGroup().location]",
-            "properties": {
-                "accountType": "[parameters('dataStorageType')]"
+          "apiVersion": "2015-08-01",
+          "name": "logs",
+          "type": "config",
+          "dependsOn": ["[parameters('functionsAppName')]"],
+          "properties": {
+            "applicationLogs": {
+              "fileSystem": {
+                "level": "Information"
+              }
             }
-        },
-        {
-            "type": "Microsoft.Web/sites",
-            "name": "[parameters('functionsAppName')]",
-            "kind": "functionapp",
-            "apiVersion": "2015-08-01",
-            "location": "[resourceGroup().location]",
-            "properties": {
-                "name": "[parameters('functionsAppName')]",
-                "serverFarmId": "[parameters('serverFarmResourceId')]"
-            },
-            "tags": {
-                "[concat('hidden-related:', parameters('serverFarmResourceId'))]": "Resource"
-            },
-            "resources": [
-                {
-                    "apiVersion": "2015-08-01",
-                    "name": "appsettings",
-                    "type": "config",
-                    "dependsOn": [
-                        "[parameters('functionsAppName')]",
-                        "[resourceId('Microsoft.Insights/components', parameters('functionsAppName'))]",
-                        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageName'))]",
-                        "[resourceId('Microsoft.Storage/storageAccounts', parameters('dataStorageName'))]"
-                    ],
-                    "properties": {
-                        "WEBSITE_RUN_FROM_PACKAGE": "[parameters('deploymentZipUrl')]",
-                        "WEBSITE_NODE_DEFAULT_VERSION": "8.9.4",
-                        "FUNCTIONS_EXTENSION_VERSION": "~2",
-                        "FUNCTION_APP_EDIT_MODE": "readonly",
-                        "FUNCTIONS_WORKER_RUNTIME": "dotnet",
-                        "APPINSIGHTS_INSTRUMENTATIONKEY": "[reference(resourceId('Microsoft.Insights/components', parameters('functionsAppName')), '2014-04-01').InstrumentationKey]",
-                        "ApplicationInsights:InstrumentationKey": "[reference(resourceId('Microsoft.Insights/components', parameters('functionsAppName')), '2014-04-01').InstrumentationKey]",
-                        "AzureWebJobsDashboard":"[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageName'), ';AccountKey=', listkeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageName')), '2015-06-15').key1)]",
-                        "AzureWebJobsStorage":"[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageName'), ';AccountKey=', listkeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageName')), '2015-06-15').key1)]",
-                        "AZURE_STORAGE_CONNECTION_STRING":"[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageName'), ';AccountKey=', listkeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageName')), '2015-06-15').key1)]",
-                        "queue_STORAGE":"[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageName'), ';AccountKey=', listkeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageName')), '2015-06-15').key1)]",
-                        "NewSessionNotificationLogicAppUrl": "[parameters('newSessionNotificationLogicAppUrl')]",
-                        "SessionsConnectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('dataStorageName'), ';AccountKey=', listkeys(resourceId('Microsoft.Storage/storageAccounts', parameters('dataStorageName')), '2015-06-15').key1)]",
-                        "SessionizeApiKey": "[parameters('sessionizeApiKey')]",
-                        "SessionizeReadModelSyncSchedule": "[variables('sessionizeReadModelSyncSchedule')]",
-                        "StopSyncingSessionsFrom": "[parameters('stopSyncingSessionsFrom')]",
-                        "TitoApiBearerToken": "[parameters('titoApiBearerToken')]",
-                        "SubmissionsAvailableFrom": "[parameters('submissionsAvailableFrom')]",
-                        "SubmissionsAvailableTo": "[parameters('submissionsAvailableTo')]",
-                        "AnonymousSubmissions": "[parameters('anonymousSubmissions')]",
-                        "ConferenceInstance": "[parameters('conferenceInstance')]",
-                        "VotesConnectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('dataStorageName'), ';AccountKey=', listkeys(resourceId('Microsoft.Storage/storageAccounts', parameters('dataStorageName')), '2015-06-15').key1)]",
-                        "VotingTable": "[variables('votingTable')]",
-                        "VotingAvailableFrom": "[parameters('votingAvailableFrom')]",
-                        "VotingAvailableTo": "[parameters('votingAvailableTo')]",
-                        "TitoSyncSchedule": "[variables('titoSyncSchedule')]",
-                        "TitoTable": "[variables('titoTable')]",
-                        "TitoEventId": "[parameters('titoEventId')]",
-                        "TitoAccountId": "[parameters('TitoAccountId')]",
-                        "StopSyncingTitoFrom": "[parameters('stopSyncingTitoFrom')]",
-                        "MinVotes": "[parameters('minVotes')]",
-                        "MaxVotes": "[parameters('maxVotes')]",
-                        "AppInsightsSyncSchedule": "[variables('appInsightsSyncSchedule')]",
-                        "AppInsightsTable": "[variables('appInsightsTable')]",
-                        "AppInsightsApplicationId": "[parameters('appInsightsApplicationId')]",
-                        "AppInsightsApplicationKey": "[parameters('appInsightsApplicationKey')]",
-                        "StartSyncingAppInsightsFrom": "[parameters('startSyncingAppInsightsFrom')]",
-                        "StopSyncingAppInsightsFrom": "[parameters('stopSyncingAppInsightsFrom')]",
-                        "StopSyncingAgendaFrom": "[parameters('stopSyncingAgendaFrom')]",
-                        "SessionizeAgendaApiKey": "[parameters('sessionizeAgendaApiKey')]",
-                        "SubmissionsTable": "[variables('submissionsTable')]",
-                        "SubmittersTable": "[variables('submittersTable')]",
-                        "SessionsTable": "[variables('sessionsTable')]",
-                        "PresentersTable": "[variables('presentersTable')]",
-                        "NewSessionNotificationSchedule": "[variables('newSessionNotificationSchedule')]",
-                        "NotifiedSessionsTable": "[variables('notifiedSessionsTable')]",
-                        "FeedbackConnectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('dataStorageName'), ';AccountKey=', listkeys(resourceId('Microsoft.Storage/storageAccounts', parameters('dataStorageName')), '2015-06-15').key1)]",
-                        "SessionFeedbackTable": "[variables('sessionFeedbackTable')]",
-                        "ConferenceFeedbackTable": "[variables('conferenceFeedbackTable')]",
-                        "MinNumSessionFeedbackForPrizeDraw": "[variables('minNumSessionFeedbackForPrizeDraw')]"
-                    }
-                },
-                {
-                    "apiVersion": "2015-08-01",
-                    "name": "web",
-                    "type": "config",
-                    "dependsOn": [
-                        "[parameters('functionsAppName')]"
-                    ],
-                    "properties": {
-                        "phpVersion": "",
-                        "pythonVersion": "",
-                        "nodeVersion": "8.9.4",
-                        "javaVersion": null,
-                        "netFrameworkVersion": "v4.0",
-                        "use32BitWorkerProcess": true,
-                        "webSocketsEnabled": true,
-                        "alwaysOn": true,
-                        "requestTracingEnabled": false,
-                        "httpLoggingEnabled": true,
-                        "logsDirectorySizeLimit": 100,
-                        "detailedErrorLoggingEnabled": false,
-                        "azureApplicationLogsFileSystemEnabled": true,
-                        "cors": {
-                            "allowedOrigins": [
-                                "*"
-                            ]
-                        }
-                    }
-                },
-                {
-                    "apiVersion": "2015-08-01",
-                    "name": "logs",
-                    "type": "config",
-                    "dependsOn": [
-                        "[parameters('functionsAppName')]"
-                    ],
-                    "properties": {
-                        "applicationLogs": {
-                            "fileSystem": {
-                                "level": "Information"
-                            }
-                        }
-                    }
-                }
-            ]
-        },
-        {
-            "type": "microsoft.insights/alertrules",
-            "name": "Request_Failures",
-            "apiVersion": "2014-04-01",
-            "location": "[variables('appInsightsLocation')]",
-            "tags": {
-                "[concat('hidden-link:', resourceId('Microsoft.Insights/components', parameters('functionsAppName')))]": "Resource"
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/Sites', parameters('functionsAppName'))]",
-                "[resourceId('Microsoft.Insights/components', parameters('functionsAppName'))]"
-            ],
-            "properties": {
-                "name": "Request_Failures",
-                "description": null,
-                "isEnabled": true,
-                "condition": {
-                    "odata.type": "Microsoft.Azure.Management.Insights.Models.ThresholdRuleCondition",
-                    "dataSource": {
-                        "odata.type": "Microsoft.Azure.Management.Insights.Models.RuleMetricDataSource",
-                        "resourceUri": "[resourceId('microsoft.insights/components', parameters('functionsAppName'))]",
-                        "metricNamespace": null,
-                        "metricName": "requestFailed.count"
-                    },
-                    "operator": "GreaterThan",
-                    "threshold": 0,
-                    "windowSize": "PT5M"
-                },
-                "action": {
-                    "odata.type": "Microsoft.Azure.Management.Insights.Models.RuleEmailAction",
-                    "sendToServiceOwners": true,
-                    "customEmails": []
-                }
-            }
+          }
         }
-    ]
+      ]
+    },
+    {
+      "type": "microsoft.insights/alertrules",
+      "name": "Request_Failures",
+      "apiVersion": "2014-04-01",
+      "location": "[variables('appInsightsLocation')]",
+      "tags": {
+        "[concat('hidden-link:', resourceId('Microsoft.Insights/components', parameters('functionsAppName')))]": "Resource"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/Sites', parameters('functionsAppName'))]",
+        "[resourceId('Microsoft.Insights/components', parameters('functionsAppName'))]"
+      ],
+      "properties": {
+        "name": "Request_Failures",
+        "description": null,
+        "isEnabled": true,
+        "condition": {
+          "odata.type": "Microsoft.Azure.Management.Insights.Models.ThresholdRuleCondition",
+          "dataSource": {
+            "odata.type": "Microsoft.Azure.Management.Insights.Models.RuleMetricDataSource",
+            "resourceUri": "[resourceId('microsoft.insights/components', parameters('functionsAppName'))]",
+            "metricNamespace": null,
+            "metricName": "requestFailed.count"
+          },
+          "operator": "GreaterThan",
+          "threshold": 0,
+          "windowSize": "PT5M"
+        },
+        "action": {
+          "odata.type": "Microsoft.Azure.Management.Insights.Models.RuleEmailAction",
+          "sendToServiceOwners": true,
+          "customEmails": []
+        }
+      }
+    }
+  ]
 }
