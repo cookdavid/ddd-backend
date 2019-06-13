@@ -28,7 +28,9 @@ namespace DDD.Functions
             [BindSubmissionsConfig]
             SubmissionsConfig submissions,
             [BindVotingConfig]
-            VotingConfig voting
+            VotingConfig voting,
+            [BindTitoSyncConfig]
+            TitoSyncConfig tickets
             )
         {
             var vote = await req.Content.ReadAsAsync<VoteRequest>();
@@ -62,6 +64,16 @@ namespace DDD.Functions
                 log.LogWarning("Attempt to submit to SubmitVotes endpoint with invalid start time (got {submittedStartTime} instead of {votingStartTime} - {now}).", vote.VotingStartTime, keyDates.VotingAvailableFromDate, keyDates.Now);
                 return new StatusCodeResult((int) HttpStatusCode.BadRequest);
             }
+            
+            // Get tickets
+            var ticketsRepo = await tickets.GetRepositoryAsync();
+            var matchedTicket = await ticketsRepo.GetAsync(conference.ConferenceInstance, vote.TicketNumber.ToUpperInvariant());
+            // Only if you have a valid ticket
+            if (string.IsNullOrEmpty(vote.TicketNumber) || matchedTicket == null)
+            {
+                log.LogWarning("Attempt to submit to SubmitVote endpoint without a valid ticket. Ticket id sent was {ticketNumber}", vote.TicketNumber);
+                return new StatusCodeResult((int) HttpStatusCode.BadRequest);
+            }
 
             // Get submitted sessions
             var (submissionsRepo, _) = await submissions.GetRepositoryAsync();
@@ -93,7 +105,7 @@ namespace DDD.Functions
 
             // Save vote
             log.LogInformation("Successfully received vote with Id {voteId}; persisting...", vote.Id);
-            var voteToPersist = new Vote(conference.ConferenceInstance, vote.Id, vote.SessionIds, vote.Indices, vote.TicketNumber, ip, vote.VoterSessionId, vote.VotingStartTime, keyDates.Now);
+            var voteToPersist = new Vote(conference.ConferenceInstance, vote.Id, vote.SessionIds, vote.Indices, vote.TicketNumber.ToUpperInvariant(), ip, vote.VoterSessionId, vote.VotingStartTime, keyDates.Now);
             await repo.CreateAsync(voteToPersist);
 
             return new StatusCodeResult((int) HttpStatusCode.NoContent);

@@ -36,15 +36,6 @@ namespace DDD.Core.Domain
             Id = existingSession.Id;
             CreatedDate = existingSession.CreatedDate;
             ModifiedDate = dateTimeProvider.Now();
-
-            Title = Title ?? existingSession.Title;
-            Abstract = Abstract ?? existingSession.Abstract;
-            Format = Format ?? existingSession.Format;
-            Level = Level ?? existingSession.Level;
-            Tags = Tags != null && Tags.Length > 0 ? Tags : existingSession.Tags;
-            PresenterIds = PresenterIds != null && PresenterIds.Length > 0 ? PresenterIds : existingSession.PresenterIds;
-            existingSession.DataFields.Keys.Except(DataFields.Keys).ToList().ForEach(key =>
-                DataFields[key] = existingSession.DataFields[key]);
         }
     }
 }

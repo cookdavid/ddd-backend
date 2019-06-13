@@ -13,7 +13,7 @@ using Scenario = DDD.Sessionize.Tests.TestHelpers.Scenario;
 
 namespace DDD.Sessionize.Tests.SessionizeSync
 {
-    public class AddDeleteAndUpdateScenario : Scenario
+    public class UpdateWithRemovedDataScenario : Scenario
     {
         public void GivenEmptyReadModel()
         {
@@ -32,10 +32,10 @@ namespace DDD.Sessionize.Tests.SessionizeSync
             await SyncService.Sync(_sessionizeApiClient, _sessionRepository, _presenterRepository,  _logger, _dateTimeProvider, "2018");
         }
 
-        public void AndGivenSessionizeHasNewUpdatedAndDeletedPresentersAndSessions()
+        public void AndGivenSessionizeHasAnUpdateThatRemovesADataField()
         {
             _sessionizeApiClient = SessionizeApiClientMock.Get(
-                GetResource("AddDeleteAndUpdateScenarioMock.json"));
+                GetResource("UpdateWithRemovedDataScenarioMock.json"));
         }
 
         public async Task WhenPerformingSubsequentSync()
@@ -71,7 +71,7 @@ namespace DDD.Sessionize.Tests.SessionizeSync
             this.Given(x => x.GivenEmptyReadModel())
                 .And(x => x.AndGivenSessionizeHasPresentersAndSessions())
                 .When(x => x.WhenPerformingSync())
-                .Given(x => x.AndGivenSessionizeHasNewUpdatedAndDeletedPresentersAndSessions())
+                .Given(x => x.AndGivenSessionizeHasAnUpdateThatRemovesADataField())
                 .When(x => x.WhenPerformingSubsequentSync())
                 .Then(x => x.ThenTheReadModelIsPopulated())
                 .And(x => x.AndTheReadModelHasTheCorrectPresenters())
@@ -80,7 +80,7 @@ namespace DDD.Sessionize.Tests.SessionizeSync
                 .BDDfy(GetType().Name);
         }
 
-        public AddDeleteAndUpdateScenario(ITestOutputHelper output)
+        public UpdateWithRemovedDataScenario(ITestOutputHelper output)
         {
             _logger = new Xunit2Logger(output);
             Xunit2BddfyTextReporter.Instance.RegisterOutput(output);
