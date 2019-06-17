@@ -6,7 +6,9 @@ using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using System.Linq;
 using System;
+using System.Collections.Generic;
 using DDD.Functions.Extensions;
+using DDD.Sessionize.SessionizeAdapter;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
 
@@ -41,26 +43,39 @@ namespace DDD.Functions
 
             var submissionData = receivedSubmissions.Where(x => x.Session != null)
                 .Select(x => x.GetSession())
-                .Select(s => new Submission
+                .Select(s =>
                 {
-                    Id = s.Id.ToString(),
-                    Title = s.Title, 
-                    Abstract = s.Abstract,
-                    Format = s.Format,
-                    Level = s.Level,
-                    Tags = s.Tags,
-                    Presenters = conference.AnonymousSubmissions
-                        ? new Submitter[0]
-                        : s.PresenterIds.Select(pId => submitters.Where(p => p.Id == pId).Select(p => p.GetPresenter()).Select(p => new Submitter
-                        {
-                            Id = p.Id.ToString(),
-                            Name = p.Name,
-                            Tagline = p.Tagline,
-                            Bio = p.Bio,
-                            ProfilePhotoUrl = p.ProfilePhotoUrl,
-                            TwitterHandle = p.TwitterHandle,
-                            WebsiteUrl = p.WebsiteUrl
-                        }).Single()).ToArray()
+                    var otherTagsKeys = s.DataFields.Keys.Where(k => SessionizeAdapter.TagsTitles.Contains(k)).ToList();
+                    var otherTagsValues = new List<string>();
+                    foreach (var key in otherTagsKeys)
+                    {
+                        var found = s.DataFields.TryGetValue(key, out var value);
+                        if(found) otherTagsValues.AddRange(value.Split(',').Select(v => v.Trim()).ToList());
+                    }
+
+                    var tags = otherTagsValues.Union(s.Tags, StringComparer.InvariantCultureIgnoreCase).ToArray();
+                    return new Submission
+                    {
+                        Id = s.Id.ToString(),
+                        Title = s.Title,
+                        Abstract = s.Abstract,
+                        Format = s.Format,
+                        Level = s.Level,
+                        Tags = tags,
+                        Presenters = conference.AnonymousSubmissions
+                            ? new Submitter[0]
+                            : s.PresenterIds.Select(pId => submitters.Where(p => p.Id == pId)
+                                .Select(p => p.GetPresenter()).Select(p => new Submitter
+                                {
+                                    Id = p.Id.ToString(),
+                                    Name = p.Name,
+                                    Tagline = p.Tagline,
+                                    Bio = p.Bio,
+                                    ProfilePhotoUrl = p.ProfilePhotoUrl,
+                                    TwitterHandle = p.TwitterHandle,
+                                    WebsiteUrl = p.WebsiteUrl
+                                }).Single()).ToArray()
+                    };
                 })
                 .OrderBy(x => Random.Next())
                 .ToArray();
