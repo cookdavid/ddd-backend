@@ -74,6 +74,14 @@
     "maxVotes": {
       "type": "string"
     },
+    "ticketNumberWhileVoting": {
+      "type": "string",
+      "allowedValues": [
+        "None",
+        "Optional",
+        "Required"
+      ]
+    },
     "titoWebhookSecret": {
       "type": "string"
     },
@@ -103,7 +111,20 @@
     },
     "sessionizeAgendaApiKey": {
       "type": "string"
-    }
+    },
+    "isSingleVoteEligibleForPrizeDraw": {
+      "type": "string",
+      "allowedValues": [
+        "true",
+	"false"
+      ]
+    },
+    "feedbackAvailableFrom": {
+      "type": "string"
+    },
+    "feedbackAvailableTo": {
+      "type": "string"
+    }	        
   },
   "variables": {
     "appInsightsLocation": "East US",
@@ -209,7 +230,8 @@
             "VotingTable": "[variables('votingTable')]",
             "VotingAvailableFrom": "[parameters('votingAvailableFrom')]",
             "VotingAvailableTo": "[parameters('votingAvailableTo')]",
-            "TitoWebhookSecret": "[parameters('titoWebhookSecret')]",
+	    "TicketNumberWhileVoting": "[parameters('ticketNumberWhileVoting')]",
+	    "TitoWebhookSecret": "[parameters('titoWebhookSecret')]",
             "TitoWebhookDeDupeTable": "[variables('titoWebhookDeDupeTable')]",
             "TitoWebhookOrderNotificationQueue": "[variables('titoWebhookOrderNotificationQueue')]",
             "TitoWebhookTicketNotificationQueue": "[variables('titoWebhookTicketNotificationQueue')]",
@@ -238,8 +260,11 @@
             "FeedbackConnectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('dataStorageName'), ';AccountKey=', listkeys(resourceId('Microsoft.Storage/storageAccounts', parameters('dataStorageName')), '2015-06-15').key1)]",
             "SessionFeedbackTable": "[variables('sessionFeedbackTable')]",
             "ConferenceFeedbackTable": "[variables('conferenceFeedbackTable')]",
-            "MinNumSessionFeedbackForPrizeDraw": "[variables('minNumSessionFeedbackForPrizeDraw')]"
-          }
+            "MinNumSessionFeedbackForPrizeDraw": "[variables('minNumSessionFeedbackForPrizeDraw')]",
+	    "IsSingleVoteEligibleForPrizeDraw": "[parameters('isSingleVoteEligibleForPrizeDraw')]",
+            "FeedbackAvailableFrom": "[parameters('feedbackAvailableFrom')]",
+            "FeedbackAvailableTo": "[parameters('feedbackAvailableTo')]"
+	  }
         },
         {
           "apiVersion": "2015-08-01",

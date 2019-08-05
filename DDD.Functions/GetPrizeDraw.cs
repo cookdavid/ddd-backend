@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -26,12 +27,24 @@ namespace DDD.Functions
             var (conferenceFeedbackRepo, sessionFeedbackRepo) = await feedbackConfig.GetRepositoryAsync();
             var conferenceFeedback = await conferenceFeedbackRepo.GetAllAsync(conference.ConferenceInstance);
             var sessionFeedback = await sessionFeedbackRepo.GetAllAsync(conference.ConferenceInstance);
+            
+            string [] prizeDraw;
+            if (feedbackConfig.IsSingleVoteEligibleForPrizeDraw)
+            {
+                var conferenceFeedbackCandidates = conferenceFeedback.Any()? conferenceFeedback.Select(x => x.Name): new List<string>();
+                var sessionsFeedbackCandidates = sessionFeedback.Any()? sessionFeedback.Select(x => x.Name): new List<string>();
 
-            var prizeDraw = conferenceFeedback.Select(x => x.Name)
-                .Where(name =>
-                    sessionFeedback.Count(s => s.Name.ToLowerInvariant() == name.ToLowerInvariant()) >=
-                    conference.MinNumSessionFeedbackForPrizeDraw)
-                .ToArray();
+                prizeDraw = conferenceFeedbackCandidates.Concat(sessionsFeedbackCandidates).ToArray();
+
+            }
+            else
+            {
+                prizeDraw = conferenceFeedback.Select(x => x.Name)
+                    .Where(name =>
+                        sessionFeedback.Count(s => s.Name.ToLowerInvariant() == name.ToLowerInvariant()) >=
+                        conference.MinNumSessionFeedbackForPrizeDraw)
+                    .ToArray();
+            }
 
             var settings = new JsonSerializerSettings();
             settings.ContractResolver = new DefaultContractResolver();

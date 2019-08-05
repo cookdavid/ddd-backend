@@ -50,6 +50,15 @@ namespace DDD.Functions.Extensions
         [AppSetting(Default = "StopSyncingTitoFrom")]
         public string StopSyncingTitoFrom { get; set; }
         public DateTimeOffset StopSyncingTitoFromDate => StopSyncingTitoFrom != null ? DateTimeOffset.Parse(StopSyncingTitoFrom) : DateTimeOffset.MinValue;
+        
+        // Feedback
+        [AppSetting(Default = "FeedbackAvailableFrom")]
+        public string FeedbackAvailableFrom { get; set; }
+        public DateTimeOffset FeedbackAvailableFromDate => FeedbackAvailableFrom != null ? DateTimeOffset.Parse(FeedbackAvailableFrom) : DateTimeOffset.MinValue;
+
+        [AppSetting(Default = "FeedbackAvailableTo")]
+        public string FeedbackAvailableTo { get; set; }
+        public DateTimeOffset FeedbackAvailableToDate => FeedbackAvailableTo != null ? DateTimeOffset.Parse(FeedbackAvailableTo) : DateTimeOffset.MaxValue;
 
 
         public bool Before(Func<KeyDatesConfig, DateTimeOffset> date, TimeSpan? tolerance = null)

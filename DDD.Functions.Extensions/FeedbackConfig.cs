@@ -12,6 +12,9 @@ namespace DDD.Functions.Extensions
         public string SessionFeedbackTable { get; set; }
         [AppSetting(Default = "ConferenceFeedbackTable")]
         public string ConferenceFeedbackTable { get; set; }
+        [AppSetting(Default = "IsSingleVoteEligibleForPrizeDraw")] 
+        public string IsSingleVoteEligibleForPrizeDrawAppSetting { get; set; }
+        public bool IsSingleVoteEligibleForPrizeDraw => IsSingleVoteEligibleForPrizeDrawAppSetting != "false";
     }
 
     [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.ReturnValue)]

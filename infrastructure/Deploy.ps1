@@ -28,6 +28,7 @@ Param (
   [string] [Parameter(Mandatory = $true)] $ConferenceInstance,
   [string] [Parameter(Mandatory = $true)] $VotingAvailableFrom,
   [string] [Parameter(Mandatory = $true)] $VotingAvailableTo,
+  [ValidateSet("None","Optional","Required")] [string] [Parameter(Mandatory = $true)] $TicketNumberWhileVoting,
   [string] [Parameter(Mandatory = $true)] $MinVotes,
   [string] [Parameter(Mandatory = $true)] $MaxVotes,
   [string] [Parameter(Mandatory = $true)] $StopSyncingSessionsFrom,
@@ -41,6 +42,9 @@ Param (
   [string] [Parameter(Mandatory = $true)] $StopSyncingAppInsightsFrom,
   [string] [Parameter(Mandatory = $true)] $StopSyncingAgendaFrom,
   [string] [Parameter(Mandatory = $true)] $SessionizeAgendaApiKey,
+  [string] [Parameter(Mandatory = $true)] $IsSingleVoteEligibleForPrizeDraw,
+  [string] [Parameter(Mandatory = $true)] $FeedbackAvailableFrom,
+  [string] [Parameter(Mandatory = $true)] $FeedbackAvailableTo,
   [string] $ResourceGroupName = "$ConferenceName-backend-$AppEnvironment"
 )
 
@@ -63,6 +67,7 @@ function Get-Parameters() {
     "conferenceInstance"                = $ConferenceInstance;
     "votingAvailableFrom"               = $VotingAvailableFrom;
     "votingAvailableTo"                 = $VotingAvailableTo;
+    "ticketNumberWhileVoting"		= $TicketNumberWhileVoting;
     "minVotes"                          = $MinVotes;
     "maxVotes"                          = $MaxVotes;
     "titoWebhookSecret"                 = $TitoWebhookSecret;
@@ -75,6 +80,9 @@ function Get-Parameters() {
     "stopSyncingAppInsightsFrom"        = $StopSyncingAppInsightsFrom;
     "stopSyncingAgendaFrom"             = $StopSyncingAgendaFrom;
     "sessionizeAgendaApiKey"            = $SessionizeAgendaApiKey;
+    "isSingleVoteEligibleForPrizeDraw"  = $IsSingleVoteEligibleForPrizeDraw;    
+    "feedbackAvailableFrom"             = $FeedbackAvailableFrom;
+    "feedbackAvailableTo"               = $FeedbackAvailableTo;
   }
 }
 
