@@ -9,7 +9,7 @@ trigger:
 - master
 
 variables:
-  StorageAccount: 'dddmelbournedeployments'
+  StorageAccount: 'dddbnestorage'
   StorageContainer: 'ddd-functions'
   Parameters.RestoreBuildProjects: ''
   Parameters.TestProjects: ''
@@ -48,7 +48,7 @@ steps:
 - task: AzureFileCopy@1
   inputs:
     SourcePath: '$(Build.ArtifactStagingDirectory)\$(Build.BuildNumber)\$(Build.BuildNumber).zip'
-    azureSubscription: 'DDD Melbourne ( 7f2f0c93-1b04-4cce-8e0c-cd545ee3dfb0 )'
+    azureSubscription: 'Pay-As-You-Go(a69a9494-70b6-40e9-866a-0fd2d8382691)'
     Destination: AzureBlob
     storage: '$(StorageAccount)'
     ContainerName: '$(StorageContainer)'

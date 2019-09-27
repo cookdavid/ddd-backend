@@ -127,7 +127,7 @@
     }	        
   },
   "variables": {
-    "appInsightsLocation": "East US",
+    "appInsightsLocation": "Australia East",
     "sessionizeReadModelSyncSchedule": "0 */5 * * * *",
     "votingTable": "Votes",
     "titoSyncSchedule": "0 */5 * * * *",
