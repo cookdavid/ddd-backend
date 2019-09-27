@@ -9,7 +9,7 @@ trigger:
 - master
 
 variables:
-  StorageAccount: 'dddbnestorage'
+  StorageAccount: 'dddbnetest'
   StorageContainer: 'ddd-functions'
   Parameters.RestoreBuildProjects: ''
   Parameters.TestProjects: ''
