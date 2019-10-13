@@ -18,7 +18,7 @@ Param (
   [string] [Parameter(Mandatory = $true)] $AppEnvironment,
   [string] [Parameter(Mandatory = $true)] $AppServicePlanResourceGroup,
   [string] [Parameter(Mandatory = $true)] $AppServicePlanName,
-  [string] [Parameter(Mandatory = $true)] $NewSessionNotificationLogicAppUrl,
+  # [string] [Parameter(Mandatory = $true)] $NewSessionNotificationLogicAppUrl,
   [string] [Parameter(Mandatory = $true)] $DeploymentZipUrl,
   [string] [Parameter(Mandatory = $true)] $SessionizeApiKey,
   [string] [Parameter(Mandatory = $true)] $TitoApiBearerToken,
@@ -28,7 +28,7 @@ Param (
   [string] [Parameter(Mandatory = $true)] $ConferenceInstance,
   [string] [Parameter(Mandatory = $true)] $VotingAvailableFrom,
   [string] [Parameter(Mandatory = $true)] $VotingAvailableTo,
-  [ValidateSet("None","Optional","Required")] [string] [Parameter(Mandatory = $true)] $TicketNumberWhileVoting,
+  [ValidateSet("None", "Optional", "Required")] [string] [Parameter(Mandatory = $true)] $TicketNumberWhileVoting,
   [string] [Parameter(Mandatory = $true)] $MinVotes,
   [string] [Parameter(Mandatory = $true)] $MaxVotes,
   [string] [Parameter(Mandatory = $true)] $StopSyncingSessionsFrom,
@@ -50,39 +50,39 @@ Param (
 
 function Get-Parameters() {
   return @{
-    "serverFarmResourceId"              = "/subscriptions/$SubscriptionId/resourceGroups/$AppServicePlanResourceGroup/providers/Microsoft.Web/serverfarms/$AppServicePlanName";
-    "functionsAppName"                  = "$ConferenceName-functions-$AppEnvironment".ToLower();
-    "storageName"                       = "$($ConferenceName)functions$AppEnvironment".ToLower();
-    "storageType"                       = "Standard_LRS";
-    "dataStorageName"                   = "$($ConferenceName)data$AppEnvironment".ToLower();
-    "dataStorageType"                   = "Standard_GRS";
-    "stopSyncingSessionsFrom"           = $StopSyncingSessionsFrom;
-    "newSessionNotificationLogicAppUrl" = $NewSessionNotificationLogicAppUrl;
-    "deploymentZipUrl"                  = $DeploymentZipUrl;
-    "sessionizeApiKey"                  = $SessionizeApiKey;
-    "titoApiBearerToken"                = $TitoApiBearerToken;
-    "submissionsAvailableFrom"          = $SubmissionsAvailableFrom;
-    "submissionsAvailableTo"            = $SubmissionsAvailableTo;
-    "anonymousSubmissions"              = $AnonymousSubmissions;
-    "conferenceInstance"                = $ConferenceInstance;
-    "votingAvailableFrom"               = $VotingAvailableFrom;
-    "votingAvailableTo"                 = $VotingAvailableTo;
-    "ticketNumberWhileVoting"		= $TicketNumberWhileVoting;
-    "minVotes"                          = $MinVotes;
-    "maxVotes"                          = $MaxVotes;
-    "titoWebhookSecret"                 = $TitoWebhookSecret;
-    "titoEventId"                       = $TitoEventId;
-    "titoAccountId"                     = $TitoAccountId;
-    "stopSyncingtitoFrom"               = $StopSyncingTitoFrom;
-    "appInsightsApplicationId"          = $AppInsightsApplicationId;
-    "appInsightsApplicationKey"         = $AppInsightsApplicationKey;
-    "startSyncingAppInsightsFrom"       = $StartSyncingAppInsightsFrom;
-    "stopSyncingAppInsightsFrom"        = $StopSyncingAppInsightsFrom;
-    "stopSyncingAgendaFrom"             = $StopSyncingAgendaFrom;
-    "sessionizeAgendaApiKey"            = $SessionizeAgendaApiKey;
-    "isSingleVoteEligibleForPrizeDraw"  = $IsSingleVoteEligibleForPrizeDraw;    
-    "feedbackAvailableFrom"             = $FeedbackAvailableFrom;
-    "feedbackAvailableTo"               = $FeedbackAvailableTo;
+    "serverFarmResourceId"             = "/subscriptions/$SubscriptionId/resourceGroups/$AppServicePlanResourceGroup/providers/Microsoft.Web/serverfarms/$AppServicePlanName";
+    "functionsAppName"                 = "$ConferenceName-functions-$AppEnvironment".ToLower();
+    "storageName"                      = "$($ConferenceName)functions$AppEnvironment".ToLower();
+    "storageType"                      = "Standard_LRS";
+    "dataStorageName"                  = "$($ConferenceName)data$AppEnvironment".ToLower();
+    "dataStorageType"                  = "Standard_GRS";
+    "stopSyncingSessionsFrom"          = $StopSyncingSessionsFrom;
+    # "newSessionNotificationLogicAppUrl" = $NewSessionNotificationLogicAppUrl;
+    "deploymentZipUrl"                 = $DeploymentZipUrl;
+    "sessionizeApiKey"                 = $SessionizeApiKey;
+    "titoApiBearerToken"               = $TitoApiBearerToken;
+    "submissionsAvailableFrom"         = $SubmissionsAvailableFrom;
+    "submissionsAvailableTo"           = $SubmissionsAvailableTo;
+    "anonymousSubmissions"             = $AnonymousSubmissions;
+    "conferenceInstance"               = $ConferenceInstance;
+    "votingAvailableFrom"              = $VotingAvailableFrom;
+    "votingAvailableTo"                = $VotingAvailableTo;
+    "ticketNumberWhileVoting"          = $TicketNumberWhileVoting;
+    "minVotes"                         = $MinVotes;
+    "maxVotes"                         = $MaxVotes;
+    "titoWebhookSecret"                = $TitoWebhookSecret;
+    "titoEventId"                      = $TitoEventId;
+    "titoAccountId"                    = $TitoAccountId;
+    "stopSyncingtitoFrom"              = $StopSyncingTitoFrom;
+    "appInsightsApplicationId"         = $AppInsightsApplicationId;
+    "appInsightsApplicationKey"        = $AppInsightsApplicationKey;
+    "startSyncingAppInsightsFrom"      = $StartSyncingAppInsightsFrom;
+    "stopSyncingAppInsightsFrom"       = $StopSyncingAppInsightsFrom;
+    "stopSyncingAgendaFrom"            = $StopSyncingAgendaFrom;
+    "sessionizeAgendaApiKey"           = $SessionizeAgendaApiKey;
+    "isSingleVoteEligibleForPrizeDraw" = $IsSingleVoteEligibleForPrizeDraw;    
+    "feedbackAvailableFrom"            = $FeedbackAvailableFrom;
+    "feedbackAvailableTo"              = $FeedbackAvailableTo;
   }
 }
 
@@ -108,7 +108,8 @@ try {
   $firstRun = $false
   try {
     Get-AzureRmResource -ResourceGroupName $ResourceGroupName -ResourceType "Microsoft.Web/sites" -ResourceName $Parameters["functionsAppName"] | Out-Null
-  } catch {
+  }
+  catch {
     $firstRun = $true
   }
 
