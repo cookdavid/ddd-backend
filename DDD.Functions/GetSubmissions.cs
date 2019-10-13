@@ -68,7 +68,7 @@ namespace DDD.Functions
                                 .Select(p => p.GetPresenter()).Select(p => new Submitter
                                 {
                                     Id = p.Id.ToString(),
-                                    Name = p.Name,
+                                    Name = AnonymiseName(p.Name),
                                     Tagline = p.Tagline,
                                     Bio = p.Bio,
                                     ProfilePhotoUrl = p.ProfilePhotoUrl,
@@ -84,6 +84,12 @@ namespace DDD.Functions
             settings.ContractResolver = new DefaultContractResolver();
 
             return new JsonResult(submissionData, settings);
+        }
+
+        private static string AnonymiseName(string name)
+        {
+            var splitName = name.Split(' ');
+            return splitName[0].First() + " " + splitName.Last();
         }
 
         public class Submission
