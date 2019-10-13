@@ -37,16 +37,10 @@
     "stopSyncingSessionsFrom": {
       "type": "string"
     },
-    "newSessionNotificationLogicAppUrl": {
-      "type": "securestring"
-    },
     "deploymentZipUrl": {
       "type": "securestring"
     },
     "sessionizeApiKey": {
-      "type": "securestring"
-    },
-    "titoApiBearerToken": {
       "type": "securestring"
     },
     "submissionsAvailableFrom": {
@@ -76,23 +70,7 @@
     },
     "ticketNumberWhileVoting": {
       "type": "string",
-      "allowedValues": [
-        "None",
-        "Optional",
-        "Required"
-      ]
-    },
-    "titoWebhookSecret": {
-      "type": "string"
-    },
-    "titoEventId": {
-      "type": "string"
-    },
-    "titoAccountId": {
-      "type": "string"
-    },
-    "stopSyncingTitoFrom": {
-      "type": "string"
+      "allowedValues": ["None", "Optional", "Required"]
     },
     "appInsightsApplicationId": {
       "type": "string"
@@ -114,17 +92,14 @@
     },
     "isSingleVoteEligibleForPrizeDraw": {
       "type": "string",
-      "allowedValues": [
-        "true",
-	"false"
-      ]
+      "allowedValues": ["true", "false"]
     },
     "feedbackAvailableFrom": {
       "type": "string"
     },
     "feedbackAvailableTo": {
       "type": "string"
-    }	        
+    }
   },
   "variables": {
     "appInsightsLocation": "Australia East",
@@ -216,8 +191,6 @@
             "ApplicationInsights:InstrumentationKey": "[reference(resourceId('Microsoft.Insights/components', parameters('functionsAppName')), '2014-04-01').InstrumentationKey]",
             "AzureWebJobsDashboard": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageName'), ';AccountKey=', listkeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageName')), '2015-06-15').key1)]",
             "AzureWebJobsStorage": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageName'), ';AccountKey=', listkeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageName')), '2015-06-15').key1)]",
-            "TitoWebhookConnectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageName'), ';AccountKey=', listkeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageName')), '2015-06-15').key1)]",
-            "NewSessionNotificationLogicAppUrl": "[parameters('newSessionNotificationLogicAppUrl')]",
             "SessionsConnectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('dataStorageName'), ';AccountKey=', listkeys(resourceId('Microsoft.Storage/storageAccounts', parameters('dataStorageName')), '2015-06-15').key1)]",
             "SessionizeApiKey": "[parameters('sessionizeApiKey')]",
             "SessionizeReadModelSyncSchedule": "[variables('sessionizeReadModelSyncSchedule')]",
@@ -230,17 +203,7 @@
             "VotingTable": "[variables('votingTable')]",
             "VotingAvailableFrom": "[parameters('votingAvailableFrom')]",
             "VotingAvailableTo": "[parameters('votingAvailableTo')]",
-	    "TicketNumberWhileVoting": "[parameters('ticketNumberWhileVoting')]",
-	    "TitoWebhookSecret": "[parameters('titoWebhookSecret')]",
-            "TitoWebhookDeDupeTable": "[variables('titoWebhookDeDupeTable')]",
-            "TitoWebhookOrderNotificationQueue": "[variables('titoWebhookOrderNotificationQueue')]",
-            "TitoWebhookTicketNotificationQueue": "[variables('titoWebhookTicketNotificationQueue')]",
-            "TitoApiBearerToken": "[parameters('titoApiBearerToken')]",
-            "TitoSyncSchedule": "[variables('titoSyncSchedule')]",
-            "TitoTable": "[variables('titoTable')]",
-            "TitoEventId": "[parameters('titoEventId')]",
-            "TitoAccountId": "[parameters('TitoAccountId')]",
-            "StopSyncingTitoFrom": "[parameters('stopSyncingTitoFrom')]",
+            "TicketNumberWhileVoting": "[parameters('ticketNumberWhileVoting')]",
             "MinVotes": "[parameters('minVotes')]",
             "MaxVotes": "[parameters('maxVotes')]",
             "AppInsightsSyncSchedule": "[variables('appInsightsSyncSchedule')]",
@@ -261,10 +224,10 @@
             "SessionFeedbackTable": "[variables('sessionFeedbackTable')]",
             "ConferenceFeedbackTable": "[variables('conferenceFeedbackTable')]",
             "MinNumSessionFeedbackForPrizeDraw": "[variables('minNumSessionFeedbackForPrizeDraw')]",
-	    "IsSingleVoteEligibleForPrizeDraw": "[parameters('isSingleVoteEligibleForPrizeDraw')]",
+            "IsSingleVoteEligibleForPrizeDraw": "[parameters('isSingleVoteEligibleForPrizeDraw')]",
             "FeedbackAvailableFrom": "[parameters('feedbackAvailableFrom')]",
             "FeedbackAvailableTo": "[parameters('feedbackAvailableTo')]"
-	  }
+          }
         },
         {
           "apiVersion": "2015-08-01",
