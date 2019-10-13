@@ -45,7 +45,7 @@ Param (
   [string] [Parameter(Mandatory = $true)] $IsSingleVoteEligibleForPrizeDraw,
   [string] [Parameter(Mandatory = $true)] $FeedbackAvailableFrom,
   [string] [Parameter(Mandatory = $true)] $FeedbackAvailableTo,
-  [string] $ResourceGroupName = "$ConferenceName-backend"
+  [string] $ResourceGroupName = "$ConferenceName-backend-test"
 )
 
 function Get-Parameters() {
