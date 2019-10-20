@@ -45,13 +45,13 @@ Param (
   [string] [Parameter(Mandatory = $true)] $IsSingleVoteEligibleForPrizeDraw,
   [string] [Parameter(Mandatory = $true)] $FeedbackAvailableFrom,
   [string] [Parameter(Mandatory = $true)] $FeedbackAvailableTo,
-  [string] $ResourceGroupName = "$ConferenceName-backend-test"
+  [string] $ResourceGroupName = "dc-$ConferenceName-backend-test"
 )
 
 function Get-Parameters() {
   return @{
     "serverFarmResourceId"             = "/subscriptions/$SubscriptionId/resourceGroups/$AppServicePlanResourceGroup/providers/Microsoft.Web/serverfarms/$AppServicePlanName";
-    "functionsAppName"                 = "$ConferenceName-functions-$AppEnvironment".ToLower();
+    "functionsAppName"                 = "dc-$ConferenceName-functions-$AppEnvironment".ToLower();
     "storageName"                      = "$($ConferenceName)functions$AppEnvironment".ToLower();
     "storageType"                      = "Standard_LRS";
     "dataStorageName"                  = "$($ConferenceName)data$AppEnvironment".ToLower();
