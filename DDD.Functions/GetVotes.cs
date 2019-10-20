@@ -45,16 +45,17 @@ namespace DDD.Functions
             var votes = await votingRepo.GetAllAsync(conference.ConferenceInstance);
 
             // Get Tito ids
-            var ebRepo = await tito.GetRepositoryAsync();
-            var titoTickets = await ebRepo.GetAllAsync(conference.ConferenceInstance);
-            var titoIds = titoTickets.Select(o => o.TicketId).ToArray();
+            //var ebRepo = await tito.GetRepositoryAsync();
+            //var titoTickets = await ebRepo.GetAllAsync(conference.ConferenceInstance);
+            //var titoIds = titoTickets.Select(o => o.TicketId).ToArray();
 
             // Get AppInsights sessions
             var aiRepo = await appInsights.GetRepositoryAsync();
             var userSessions = await aiRepo.GetAllAsync(conference.ConferenceInstance);
 
             // Analyse votes
-            var analysedVotes = votes.Select(v => new AnalysedVote(v, votes, titoIds, userSessions)).ToArray();
+            //var analysedVotes = votes.Select(v => new AnalysedVote(v, votes, titoIds, userSessions)).ToArray();
+            var analysedVotes = votes.Select(v => new AnalysedVote(v, votes, new string[0], userSessions)).ToArray();
 
             // Get summary
             var sessions = receivedSubmissions.Select(x => x.GetSession())
